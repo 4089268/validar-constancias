@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+</head>
+<body>
+	<center><h2 th:text="${titulo}"></h2></center>
+	
+	<div class="div-form">
+		<form th:action="@{/generar}" method="post">
+		
+			<div class="item">
+				<label for="fecha">Fecha</label>
+				<input id="fecha" type="date" />
+			</div>
+			
+			<div class="item">
+				<label for="dependencia">Dependencia</label>
+				<input id="dependencia" type="text"  />
+			</div>
+			
+			<div class="item">
+				<label for="sucursal">Sucursal</label>
+				<input id="sucursal" type="text"  />
+			</div>
+			
+			<div class="item">
+				<label for="tipoDoc">Tipo Documento</label>
+				<input id="tipoDoc" type="text"  />
+			</div>
+			
+			<div class="item">
+				<label for="contrato">Numero de contrato</label>
+				<input id="contrato" type="text"  />
+			</div>
+			
+			<div class="item">
+				<label for="razonSocial">Razon Social</label>
+				<input id="razonSocial" type="text"  />
+			</div>
+			
+			<div class="submit">
+				<input type="submit" value="Generar Codigo" />
+			</div>
+			
+		</form>
+	</div>
+	
+	<br />
+	<br />
+	
+	<div th:if="${documento != null}">
+		<div th:text="${documento.razonSocial}"></div>
+	</div>
+	
+	<style>
+		.div-form{
+			width:450px;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		
+		.div-form .item{
+			display: grid;
+			grid-template-columns: 160px 1fr;
+			grid-template-rows: 20px;
+			margin: 4px 0px;
+		}
+		
+			.div-form .item label{
+				width:100%;
+				grid-area: 1/1/2/2;
+			}
+			.div-form .item input{
+				width:100%;
+				grid-area: 1/2/2/3;
+			}
+			
+			.div-form .submit{
+				margin: 10px 0px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+			}
+			.div-form input[type="submit"]{
+				padding: 4px 10px;
+			}
+			
+	</style>
+	
+	
+</body>
+</html>
