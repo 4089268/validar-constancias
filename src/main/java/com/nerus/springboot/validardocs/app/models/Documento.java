@@ -1,11 +1,14 @@
 package com.nerus.springboot.validardocs.app.models;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class Documento {
 	private String fecha;
 	private String dependencia;
 	private String sucursal;
 	private String tipoDocumento;
-	private int contrato;
+	private String contrato;
 	private String razonSocial;
 	
 	public String getFecha() {
@@ -32,10 +35,10 @@ public class Documento {
 	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
-	public int getContrato() {
+	public String getContrato() {
 		return contrato;
 	}
-	public void setContrato(int contrato) {
+	public void setContrato(String contrato) {
 		this.contrato = contrato;
 	}
 	public String getRazonSocial() {
@@ -50,8 +53,35 @@ public class Documento {
 		this.dependencia = "";
 		this.sucursal = "";
 		this.tipoDocumento = "";
-		this.contrato = 0;
+		this.contrato = "";
 		this.razonSocial = "";
 	}
-
+	
+	public Map<String,String> Validar(){
+		var results = new HashMap<String,String>();
+		
+		if(fecha == null || fecha.trim().length() <= 1) {
+			results.put("fecha", "Ingrese una fecha valida.");
+		}
+		
+		if(dependencia == null || dependencia.trim().length() <= 1) {
+			results.put("dependencia", "Seleccione una dependencia.");
+		}
+		if(sucursal == null || sucursal.trim().length() <= 1) {
+			results.put("sucursal", "Seleccione una sucursal.");
+		}
+		if(tipoDocumento == null || tipoDocumento.trim().length() <= 1) {
+			results.put("tipoDocumento", "Seleccion un tipo de documento.");
+		}
+		if(contrato == null || contrato.trim().length() <= 1) {
+			results.put("contrato", "Escriba un contrato valido.");
+		}
+		if(razonSocial == null || razonSocial.trim().length() <= 1) {
+			results.put("razonSocial", "Ingrese una razon social valida.");
+		}
+		
+		
+		return results;
+	}
+	
 }

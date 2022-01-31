@@ -8,36 +8,54 @@
 	<center><h2 th:text="${titulo}"></h2></center>
 	
 	<div class="div-form">
-		<form th:action="@{/generar}" method="post">
+		<form th:action="@{/generar}" method="post" th:object="${documento}">
 		
 			<div class="item">
 				<label for="fecha">Fecha</label>
-				<input id="fecha" type="date" />
+				<input type="date" id="fecha" th:field="*{fecha}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('fecha')}">
+					* Error: <span th:text="${errores.fecha}"></span> 
+				</div>
 			</div>
 			
 			<div class="item">
 				<label for="dependencia">Dependencia</label>
-				<input id="dependencia" type="text"  />
+				<input type="text" id="dependencia" th:field="*{dependencia}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('dependencia')}">
+					* Error: <span th:text="${errores.dependencia}"></span> 
+				</div>
 			</div>
 			
 			<div class="item">
 				<label for="sucursal">Sucursal</label>
-				<input id="sucursal" type="text"  />
+				<input type="text" id="sucursal" th:field="*{sucursal}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('sucursal')}">
+					* Error: <span th:text="${errores.sucursal}"></span> 
+				</div>
 			</div>
 			
 			<div class="item">
 				<label for="tipoDoc">Tipo Documento</label>
-				<input id="tipoDoc" type="text"  />
+				<input type="text" id="tipoDoc" th:field="*{tipoDocumento}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('tipoDocumento')}">
+					* Error: <span th:text="${errores.tipoDocumento}"></span> 
+				</div>
 			</div>
 			
 			<div class="item">
 				<label for="contrato">Numero de contrato</label>
-				<input id="contrato" type="text"  />
+				<input type="text" id="contrato" th:field="*{contrato}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('contrato')}">
+					* Error: <span th:text="${errores.contrato}"></span> 
+				</div>
 			</div>
 			
 			<div class="item">
 				<label for="razonSocial">Razon Social</label>
-				<input id="razonSocial" type="text"  />
+				<input type="text" id="razonSocial" th:field="*{razonSocial}" />
+				<div class="text-error" th:if="${ errores != null && errores.containsKey('razonSocial')}">
+					* Error: <span th:text="${errores.razonSocial}"></span> 
+				</div>
 			</div>
 			
 			<div class="submit">
@@ -47,12 +65,6 @@
 		</form>
 	</div>
 	
-	<br />
-	<br />
-	
-	<div th:if="${documento != null}">
-		<div th:text="${documento.razonSocial}"></div>
-	</div>
 	
 	<style>
 		.div-form{
@@ -64,8 +76,8 @@
 		.div-form .item{
 			display: grid;
 			grid-template-columns: 160px 1fr;
-			grid-template-rows: 20px;
-			margin: 4px 0px;
+			grid-template-rows: 20px 16px;
+			margin: 14px 0px;
 		}
 		
 			.div-form .item label{
@@ -85,6 +97,13 @@
 			}
 			.div-form input[type="submit"]{
 				padding: 4px 10px;
+			}
+			
+			.div-form .text-error{
+				grid-area: 2/2/3/3;
+				color: red;
+				font-size:12px;
+				font-weight:300;
 			}
 			
 	</style>
