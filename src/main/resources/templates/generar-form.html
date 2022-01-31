@@ -7,6 +7,8 @@
 <body>
 	<center><h2 th:text="${titulo}"></h2></center>
 	
+	<br/><br/>
+	
 	<div class="div-form">
 		<form th:action="@{/generar}" method="post" th:object="${documento}">
 		
@@ -20,7 +22,11 @@
 			
 			<div class="item">
 				<label for="dependencia">Dependencia</label>
-				<input type="text" id="dependencia" th:field="*{dependencia}" />
+				<div class="input">
+					<select id="dependencia" th:field="*{dependencia}">
+						<option th:each="dependencia: ${dependencias}" th:value="${dependencia}" th:text="${dependencia}"></option>
+					</select>
+				</div>
 				<div class="text-error" th:if="${ errores != null && errores.containsKey('dependencia')}">
 					* Error: <span th:text="${errores.dependencia}"></span> 
 				</div>
@@ -28,7 +34,12 @@
 			
 			<div class="item">
 				<label for="sucursal">Sucursal</label>
-				<input type="text" id="sucursal" th:field="*{sucursal}" />
+				<div class="input">
+					<select id="sucursal" th:field="*{sucursal}">
+						<option value="">*** Seleccione una sucursal ***</option>
+						<option th:each="sucursal : ${sucursales}" th:value="${sucursal}" th:text="${sucursal}"></option>
+					</select>
+				</div>
 				<div class="text-error" th:if="${ errores != null && errores.containsKey('sucursal')}">
 					* Error: <span th:text="${errores.sucursal}"></span> 
 				</div>
@@ -36,7 +47,11 @@
 			
 			<div class="item">
 				<label for="tipoDoc">Tipo Documento</label>
-				<input type="text" id="tipoDoc" th:field="*{tipoDocumento}" />
+				<div class="input">
+					<select id="tipoDoc" th:field="*{tipoDocumento}">
+						<option th:each="tipoDoc : ${constancias}" th:value="${tipoDoc}" th:text="${tipoDoc}"></option>
+					</select>
+				</div>
 				<div class="text-error" th:if="${ errores != null && errores.containsKey('tipoDocumento')}">
 					* Error: <span th:text="${errores.tipoDocumento}"></span> 
 				</div>
@@ -76,7 +91,8 @@
 		.div-form .item{
 			display: grid;
 			grid-template-columns: 160px 1fr;
-			grid-template-rows: 20px 16px;
+			grid-template-rows: 30px 16px;
+			align-items:center;
 			margin: 14px 0px;
 		}
 		
@@ -84,8 +100,9 @@
 				width:100%;
 				grid-area: 1/1/2/2;
 			}
-			.div-form .item input{
+			.div-form .item input, .div-form .item .input, .div-form .item select{
 				width:100%;
+				height:100%;
 				grid-area: 1/2/2/3;
 			}
 			

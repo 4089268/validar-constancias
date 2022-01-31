@@ -2,10 +2,13 @@ package com.nerus.springboot.validardocs.app.controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.nerus.springboot.validardocs.app.models.Documento;
@@ -57,4 +60,32 @@ public class DefaultController {
 		return "mostrar-qr";
 	}
 
+	
+	
+	@ModelAttribute("dependencias")
+	public List<String> ObtenerDependencias(){
+		var result = new ArrayList<String>();
+		result.add("CAEV");
+		return result;
+	}
+	@ModelAttribute("sucursales")
+	public List<String> ObtenerSucursales(){
+		var result = new ArrayList<String>();
+		result.add("Othon P Blanco");
+		result.add("Tulum");
+		result.add("Felipe Carrillo Puerto");
+		result.add("Bacalar");
+		result.add("Cozumel");
+		return result;
+	}
+	@ModelAttribute("constancias")
+	public List<String> ObtenerTiposConstancias(){
+		var result = new ArrayList<String>();
+		result.add("Constancia de NO Adeudo");
+		result.add("Constancia de NO Contrato");
+		result.add("Constancia de A");
+		result.add("Constancia de B");
+		result.add("Constancia de C");
+		return result;
+	}
 }
