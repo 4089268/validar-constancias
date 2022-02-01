@@ -49,6 +49,7 @@
 				<label for="tipoDoc">Tipo Documento</label>
 				<div class="input">
 					<select id="tipoDoc" th:field="*{tipoDocumento}">
+						<option value="">*** Seleccione un tipo de documento ***</option>
 						<option th:each="tipoDoc : ${constancias}" th:value="${tipoDoc}" th:text="${tipoDoc}"></option>
 					</select>
 				</div>

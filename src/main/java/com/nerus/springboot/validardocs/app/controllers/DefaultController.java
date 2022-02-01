@@ -5,17 +5,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nerus.springboot.validardocs.app.models.Documento;
+import com.nerus.springboot.validardocs.app.services.CodificadorDocs;
+import com.nerus.springboot.validardocs.app.services.GenerarCodigoService;
 
 
 @Controller
 public class DefaultController {
+	
+	@Autowired
+	GenerarCodigoService generadorService;
+	
+	@Autowired
+	CodificadorDocs codificador;
+	
 	
 	@GetMapping({"","/","/index","/home"})
 	public String Index(Model model) {
@@ -24,7 +35,7 @@ public class DefaultController {
 	}
 	
 	@GetMapping({"/generar"})
-	public String GenerarCodigo(Model model) {
+	public String ObtenerFormulario(Model model) {
 		var documento = new Documento();
 		  
 		LocalDate now = LocalDate.now();
@@ -40,7 +51,8 @@ public class DefaultController {
 	}
 	
 	@PostMapping({"/generar"})
-	public String GenerarCodigo_Post(Documento doc,  Model model) {
+	public String GenerarCodigo(Documento doc,  Model model) {
+		
 		model.addAttribute("titulo", "Generar codigo");
 		model.addAttribute("documento", doc);
 		
@@ -49,15 +61,56 @@ public class DefaultController {
 		if(!result.isEmpty()) {
 			model.addAttribute("errores", result);
 			return "generar-form";
-		}else {
-			return "mostrar-qr";
 		}
+		
+		//*** Serializar documento
+		String resultDoc = codificador.serializarDocumento(doc);
+		
+		try {
+			String encriptText = codificador.codificarTexto(resultDoc);
+		
+			//*** Generar codigo QR
+			var urlValidar = "http://127.0.0.1:8080/validar?c=".concat(encriptText);
+			var imageb64 = generadorService.generarCodigo(urlValidar, 300);
+			model.addAttribute("imageB64", imageb64);
+			model.addAttribute("url", urlValidar);
+			return "mostrar-qr";
+			
+		}catch(Exception err){
+			return "error";
+		}
+		
+	}
+	
+	@GetMapping({"/validar"})
+	public String ValidarCodigo(@RequestParam("c") String codigo, Model model) {
+		model.addAttribute("titulo", "Codigo validado");
+		model.addAttribute("codigo", codigo);
+		
+		//*** validar documento
+		try {
+			var jsonText = codificador.decodificarTexto(codigo);
+			Documento documento = codificador.serializarDocumento( jsonText );
+			model.addAttribute("validado", true);
+			model.addAttribute("documento", documento);
+			
+		}catch(Exception err) {
+			System.out.println("Error:".concat(err.getMessage()));
+			model.addAttribute("validado", false);
+		}
+		return "result-doc";
 	}
 	
 	@GetMapping({"/codigo"})
 	public String Test_MostrarCodigo(Model model) {
-		model.addAttribute("titulo", "Codigo generado");
-		return "mostrar-qr";
+		model.addAttribute("titulo", "Pruebas Generador Codigo QR");
+		try {
+			var imageb64 = generadorService.generarCodigo("https://www.github.com/4089268", 300);
+			model.addAttribute("imageB64", imageb64);
+			return "mostrar-qr";				
+		}catch(Exception err){
+			return "error";
+		}
 	}
 
 	

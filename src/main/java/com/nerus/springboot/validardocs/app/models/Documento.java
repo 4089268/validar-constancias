@@ -3,7 +3,10 @@ package com.nerus.springboot.validardocs.app.models;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Documento {
+public class Documento implements java.io.Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private String fecha;
 	private String dependencia;
 	private String sucursal;

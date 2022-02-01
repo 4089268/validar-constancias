@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+</head>
+<body>
+	<center><h2 th:text="${titulo}"></h2></center>
+	<br/>
+	<center><div th:text="${codigo}"></div></center>
+	
+	<br/>
+	<br/>
+	
+	<div th:if="${validado}">
+		<center><h5 style="color:red;">Documento VALIDO</h5></center>
+		<div th:text="${documento.razonSocial}"></div>
+		<div th:text="${documento.tipoDocumento}"></div>
+		<div th:text="${documento.contrato}"></div>
+	</div>
+	<div th:if="${!validado}">
+		<center><h5 style="color:red;">DOCUMENTO NO VALIDO</h5></center>
+	</div>
+	
+</body>
+</html>
